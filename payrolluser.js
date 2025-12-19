@@ -149,3 +149,5 @@ app.put('/update/:id', (req, res) => {
 });
 
 app.listen(7000, () => console.log("server is running"));
+
+module.exports=app;

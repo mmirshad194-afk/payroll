@@ -52,3 +52,5 @@ app.delete('/delete/:id', (req, res) => {
         res.json({ success: "data deleted successfully", result })
     })
 })
+
+module.exports=app;
