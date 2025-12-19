@@ -4,24 +4,7 @@ const app =express();
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 
-const mysql = require('mysql');
-
-const connection = mysql.createConnection({
-    host: 'localst',
-    user: 'root',
-    password:'',
-    database: 'connection',
-
-})
-
-connection.connect((err)=>{ 
-    if(err){
-        console.log("error in connection",err);
-        return;
-    }
-    console.log("connected to database")
-})
-
+const db=require('./db');
 
 
 app.post('/insert',(req,res)=>{

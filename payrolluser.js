@@ -5,22 +5,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 const bcrypt = require('bcrypt');
 const mysql = require('mysql');
-
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password:'',
-    database: 'payroll',
-
-})
-
-connection.connect((err)=>{
-    if(err){
-        console.log("error in connection",err);
-        return;
-    }
-    console.log("connected to database")
-})
+const db=require('./db');
 
 const session = require('express-session');
 
