@@ -1,20 +1,21 @@
+const db=require('./db');
 const express = require('express');
 const app =express();
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 
-const db=require('./db');
+
 
 
 app.post('/insert',(req,res)=>{
-    const {name,job_role,department,salary_type,joining_date, status}=req.body;
-    console.log("datas",name,job_role,department,salary_type,joining_date, status)
+    const {name,department,salary_type,joining_date, status}=req.body;
+    console.log("datas",name,department,salary_type,joining_date, status)
     
 
 
-db.query('INSERT INTO employees(name,job_role,department,salary_type,joining_date, status) VALUES (?,?,?,?,?,?,?,?,?,?)',
-    [name,job_role,department,salary_type,joining_date, status],(err,result)=>{
+db.query('INSERT INTO employees(name,department,salary_type,joining_date, status) VALUES (?,?,?,?,?,?,?,?,?,?)',
+    [name,department,salary_type,joining_date, status],(err,result)=>{
     if(err){
         console.log("error data" ,err)
         return res.status(500).json({error:"database query failed"})
@@ -38,6 +39,21 @@ app.get('/employees',(req,res)=>{
 })
 
 
+app.put('/update/:id', (req, res) => {
+    const { name, job_role, department, salary_type, joining_date, status } = req.body;
+    const { id } = req.params;
+
+    db.query(`UPDATE employees SET name = ?,job_role = ?,department = ?,salary_type = ?,joining_date = ?,status = ? WHERE employee_id = ?`,
+        [name, job_role, department, salary_type, joining_date, status, id],
+        (err,result) => {
+            if (err) {
+                console.log("update error", err);
+                return res.status(500).json({ error: "update failed" });
+            }
+            res.json({ success: "employee updated successfully", result});
+        }
+    );
+});
 
 
 
@@ -52,5 +68,9 @@ app.delete('/delete/:id', (req, res) => {
         res.json({ success: "data deleted successfully", result })
     })
 })
+
+
+
+
 
 module.exports=app;

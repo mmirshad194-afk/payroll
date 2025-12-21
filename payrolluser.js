@@ -5,8 +5,6 @@ const app =express();
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 const bcrypt = require('bcrypt');
-const mysql = require('mysql');
-
 const session = require('express-session');
 
 app.use(session({
@@ -32,7 +30,7 @@ app.post('/signup',async(req,res)=>{
     console.log("datas",name,email,password);
     const hashpassword = await bcrypt.hash(password,10);
 
-    connection.query('INSERT INTO users ( name,email,password ) VALUES (?,?)',[name,email,hashpassword],(err,result) => {
+    connection.query('INSERT INTO users ( name,email,password ) VALUES (?,?,?)',[name,email,hashpassword],(err,result) => {
         if(err){
             console.log("error data",err);
             return res.status(500).json({error:"database query filed" })

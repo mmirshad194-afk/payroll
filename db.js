@@ -19,3 +19,5 @@ connection.connect((error)=>{
 app.get('/display',(req,res)=>{
 
 })
+
+module.exports=connection;
