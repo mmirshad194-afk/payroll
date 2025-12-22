@@ -11,7 +11,7 @@ const earnings=require('./earnings');
 app.use('/earn',earnings);
 const deductions=require('./deduction');
 app.use('/deduc',deductions);
-const employees=require('./employees');
+const employees=require('./employees'); 
 app.use('/emp',employees);
 const users=require('./payrolluser');
 app.use('/user',users);
