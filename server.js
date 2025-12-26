@@ -14,7 +14,7 @@ app.use('/deduc',deductions);
 const employees=require('./employees'); 
 app.use('/emp',employees);
 const users=require('./payrolluser');
-app.use('/user',users);
+app.use('/users',users);
 
 
 app.listen(8000, () => console.log("Server running"));
