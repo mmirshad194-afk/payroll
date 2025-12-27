@@ -2,13 +2,13 @@ const mysql=require('mysql');
 const express=require('express');
 const app=express();
 
-const connection=mysql.createConnection({
+const db=mysql.createConnection({
     host:'localhost',
     user:'root',
     password:'',
     database:'payroll',
 });
-connection.connect((error)=>{
+db.connect((error)=>{
     if(error){
         console.log("error database connection");
         return;
@@ -20,4 +20,4 @@ app.get('/display',(req,res)=>{
 
 })
 
-module.exports=connection;
+module.exports=db;

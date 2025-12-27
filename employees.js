@@ -8,7 +8,7 @@ app.use(express.urlencoded({extended:true}))
 
 
 
-app.post('/insert',(req,res)=>{
+app.post('/insert',(req,res)=>{ 
     const {name,department,salary_type,joining_date, status}=req.body;
     console.log("datas",name,department,salary_type,joining_date, status)
     

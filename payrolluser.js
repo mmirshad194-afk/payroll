@@ -30,20 +30,20 @@ app.post('/signup',async(req,res)=>{
     console.log("datas",name,email,password);
     const hashpassword = await bcrypt.hash(password,10);
 
-    connection.query('INSERT INTO users ( name,email,password ) VALUES (?,?,?)',[name,email,hashpassword],(err,result) => {
+    app.query('INSERT INTO users ( name,email,password ) VALUES (?,?,?)',[name,email,hashpassword],(err,result) => {
         if(err){
             console.log("error data",err);
             return res.status(500).json({error:"database query filed" })
         }
         res.json({succes:"data inserted successfully",result})
     })
-})
+}) 
 
 app.post('/login',(req,res) =>{
     const { email,password} = req.body;
 
     const sql = "SELECT * FROM users WHERE email = ?"
-    connection.query(sql,[email], async(err,rows)=>{
+    db.query(sql,[email], async(err,rows)=>{
         if (err) return res.status(500).json({ mesage: 'db error'});
         if (!rows.length) return res.status(400).json({ message: " incorrect Email" });
 
@@ -82,7 +82,7 @@ app.get('/check-session', (req, res) => {
 
 
 app.get('/get', (req, res) => {
-    connection.query('select * from users', (err, result) => {
+    db.query('select * from users', (err, result) => {
         if (err) {
             console.log("error data", err)
             return res.status(500).json({ error: "database query failed" });
@@ -97,7 +97,7 @@ app.get('/get', (req, res) => {
 app.delete('/delete/:id', (req, res) => {
     const id = req.params.id;
  
-    connection.query("delete from users where id=?", [id], (err, result) => {
+    db.query("delete from users where id=?", [id], (err, result) => {
         if (err) {
             console.log("error query", err);
             return res.status(500).json({ error: "database query failed" })
@@ -112,7 +112,7 @@ app.put('/update/:id', (req, res) => {
     const {name,password, email,} = req.body;
 
 
-    connection.query("SELECT * FROM users WHERE id = ?", [id], (err, rows) => {
+    db.query("SELECT * FROM users WHERE id = ?", [id], (err, rows) => {
         if (err) {
             console.log("Fetch error", err);
             return res.status(500).json({ error: "Database fetch failed" });
@@ -131,7 +131,7 @@ app.put('/update/:id', (req, res) => {
         // const updatedPhone = phone || oldData.phone;
 
 
-        connection.query(
+        db.query(
             "UPDATE users SET password=?, email=?,WHERE id=?",
             [updatedname,updatedpass, updatedemail,id],
             (err, result) => {
