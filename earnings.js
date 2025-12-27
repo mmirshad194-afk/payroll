@@ -35,22 +35,13 @@ app.get("/:employee_id", (req, res) => {
 });
 
 
-app.put("/:id", (req, res) => {
-    const { basic_salary, hra, travel_allowance, overtime_pay, month } = req.body;
-
-    const sql = `
-        UPDATE earnings SET 
-        basic_salary=?, hra=?, travel_allowance=?, overtime_pay=?, month=?
-        WHERE earning_id=?
-    `;
-
-    db.query(sql,
-        [basic_salary, hra, travel_allowance, overtime_pay, month, req.params.id],
-        (err) => {
-            if (err) return res.status(500).json(err);
-            res.json({ message: "Earnings updated" });
-        }
-    );
+app.put("/:id",(r,s)=>{
+  const {basic_salary, hra, travel_allowance, overtime_pay, month}=r.body;
+  db.query(
+    "UPDATE earnings SET basic_salary=COALESCE(?,basic_salary),hra=COALESCE(?,hra),travel_allowance=COALESCE(?,travel_allowance),overtime_pay=COALESCE(?,overtime_pay),month=COALESCE(?,month) WHERE earning_id=?",
+    [basic_salary, hra, travel_allowance, overtime_pay, month, r.params.id],
+    e=>s.status(e?500:200).json(e||{message:"updated"})
+  );
 });
 
 

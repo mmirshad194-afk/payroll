@@ -33,24 +33,39 @@ app.get("/:employee_id", (req, res) => {
     );
 });
 
-
 app.put("/:id", (req, res) => {
-    const { pf, esi, professional_tax, loan_deduction, late_penalty, month } = req.body;
+  const d = req.body;
+  const id = req.params.id;
 
-    const sql = `
-        UPDATE deductions SET 
-        pf=?, esi=?, professional_tax=?, loan_deduction=?, late_penalty=?, month=?
-        WHERE deduction_id=?
-    `;
+  const sql = `
+    UPDATE deductions SET
+      pf = COALESCE(?, pf),
+      esi = COALESCE(?, esi),
+      professional_tax = COALESCE(?, professional_tax),
+      loan_deduction = COALESCE(?, loan_deduction),
+      late_penalty = COALESCE(?, late_penalty),
+      month = COALESCE(?, month)
+    WHERE deduction_id = ?
+  `;
 
-    db.query(sql,
-        [pf, esi, professional_tax, loan_deduction, late_penalty, month, req.params.id],
-        (err) => {
-            if (err) return res.status(500).json(err);
-            res.json({ message: "Deduction updated" });
-        }
-    );
+  db.query(
+    sql,
+    [
+      d.pf || null,
+      d.esi || null,
+      d.professional_tax || null,
+      d.loan_deduction || null,
+      d.late_penalty || null,
+      d.month || null,
+      id
+    ],
+    (err) => {
+      if (err) return res.status(500).json(err);
+      res.json({ message: "Deduction updated" });
+    }
+  );
 });
+
 
 
 app.delete("/:id", (req, res) => {

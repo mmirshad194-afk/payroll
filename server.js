@@ -6,6 +6,9 @@ app.use(express.json());
 app.get("/", (req, res) => {
     res.send("Payroll API running");
 });
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 const db =require('./db');
 const earnings=require('./earnings');
 app.use('/earn',earnings);
