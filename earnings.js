@@ -5,7 +5,7 @@ const router = express.Router();
 
 
 
-app.post("/:insert", (req, res) => {
+app.post("/insert", (req, res) => {
     const { employee_id, basic_salary, hra, travel_allowance, overtime_pay, month } = req.body;
 
     const sql = `
@@ -66,4 +66,4 @@ app.delete("/:id", (req, res) => {
 });
 
 
-module.exports = router;
+module.exports =app;
