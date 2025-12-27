@@ -30,7 +30,7 @@ app.post('/signup',async(req,res)=>{
     console.log("datas",name,email,password);
     const hashpassword = await bcrypt.hash(password,10);
 
-    app.query('INSERT INTO users ( name,email,password ) VALUES (?,?,?)',[name,email,hashpassword],(err,result) => {
+    db.query('INSERT INTO users ( name,email,password ) VALUES (?,?,?)',[name,email,hashpassword],(err,result) => {
         if(err){
             console.log("error data",err);
             return res.status(500).json({error:"database query filed" })
