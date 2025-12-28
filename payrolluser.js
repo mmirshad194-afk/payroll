@@ -95,9 +95,9 @@ app.get('/get', (req, res) => {
 
 
 app.delete('/delete/:id', (req, res) => {
-    const id = req.params.id;
- 
-    db.query("delete from users where id=?", [id], (err, result) => {
+    const user_id = req.params.id;
+    
+    db.query("delete from users where user_id=?", [user_id], (err, result) => {
         if (err) {
             console.log("error query", err);
             return res.status(500).json({ error: "database query failed" })
@@ -108,14 +108,14 @@ app.delete('/delete/:id', (req, res) => {
 
 
 app.put('/update/:id', (req, res) => {
-    const id = req.params.id;
+    const user_id = req.params.id;
     const {name,password, email,} = req.body;
 
 
-    db.query("SELECT * FROM users WHERE id = ?", [id], (err, rows) => {
+    db.query("SELECT * FROM users WHERE user_id = ?", [user_id], (err, rows) => {
         if (err) {
             console.log("Fetch error", err);
-            return res.status(500).json({ error: "Database fetch failed" });
+            return res.status(500).json({ error: "query failed" });
         }
 
         if (rows.length === 0) {
@@ -132,8 +132,8 @@ app.put('/update/:id', (req, res) => {
 
 
         db.query(
-            "UPDATE users SET password=?, email=?,WHERE id=?",
-            [updatedname,updatedpass, updatedemail,id],
+            "UPDATE users SET password=?, email=? WHERE user_id=?",
+            [updatedname,updatedpass, updatedemail,user_id],
             (err, result) => {
                 if (err) {
                     console.log("Update error", err);
