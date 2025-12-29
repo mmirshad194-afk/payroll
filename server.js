@@ -18,6 +18,8 @@ const employees=require('./employees');
 app.use('/emp',employees);
 const users=require('./payrolluser');
 app.use('/users',users);
+const payroll=require('./payroll');
+app.use('/pay',payroll);
 
 
 app.listen(8000, () => console.log("Server running"));
