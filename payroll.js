@@ -11,10 +11,10 @@ app.get('/readall', (req, res) => {
   });
 });
 
-app.get('/id', (req, res) => {
-  const { employee_id } = req.params;
+app.get('/:id', (req, res) => {
+  const { id } = req.params;
   const sql = "SELECT * FROM payroll WHERE employee_id=?";
-  db.query(sql, [employee_id], (err, results) => {
+  db.query(sql, [id], (err, results) => {
     if (err) return res.status(500).json(err);
     res.json(results);
   });
@@ -29,13 +29,13 @@ app.post('/insert', (req, res) => {
     if (err) return res.status(500).json(err);
     if (earnings.length === 0) return res.status(400).json({ msg: "Earnings not found" });
 
-    const gross_salary = earnings[0].basic_salary + (earnings[0].hra || 0) + (earnings[0].travel_allowance || 0) + (earnings[0].bonus || 0) + (earnings[0].overtime_pay || 0);
+    const gross_salary = earnings[0].basic_salary + (earnings[0].hra || 0) + (earnings[0].travel_allowance || 0) + (earnings[0].overtime_pay || 0);
 
     // 2️⃣ Get deductions
     db.query("SELECT * FROM deductions WHERE employee_id=?", [employee_id], (err, deductions) => {
       if (err) return res.status(500).json(err);
 
-      const total_deductions = deductions.length > 0 ? (deductions[0].pf || 0) + (deductions[0].esi || 0) + (deductions[0].tax || 0) + (deductions[0].loan || 0) : 0;
+      const total_deductions = deductions.length > 0 ? (deductions[0].pf || 0) + (deductions[0].esi || 0) + (deductions[0].professional_tax || 0) + (deductions[0].loan_deduction || 0)+(deductions[0].late_penalty || 0) : 0;
       const net_salary = gross_salary - total_deductions;
 
       // 3️⃣ Insert payroll record

@@ -3,7 +3,7 @@ const app = express();
 const db = require("./db");
 
 const router = express.Router();
-app.post("/post", (req, res) => {
+app.post("/insert", (req, res) => {
     const { employee_id, pf, esi, professional_tax, loan_deduction, late_penalty, month } = req.body;
 
     const sql = `
