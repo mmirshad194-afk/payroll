@@ -1,7 +1,7 @@
 const db=require('./db');
 const express = require('express');
 const app =express();
-
+const router = express.Router();
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 
@@ -50,9 +50,9 @@ app.post('update/:id',(req,res)=>{
             return res.status(500).json({error:"database update failed"})
 
         }
+        res.json({success:"data updated successfully",result}) 
       })
-
-        })
+    })
   })
 
 
@@ -67,3 +67,29 @@ app.delete('/delete/:id',(req,res)=>{
         res.json({success:"data deleted successfully",result})
     })
 })
+
+app.get('/get',(req,res)=>{
+    db.query('select * from attendence whwre id=1',(err,result)=>{
+        if(err){
+            console.log("error data",err)
+            return res.status(500).json({error:"database query failed"})
+
+        }
+        res.json(result);
+    })
+})
+
+app.get('/get', (req, res) => {
+    db.query('select * from attendence', (err, result) => {
+        if (err) {
+            console.log("error data", err)
+            return res.status(500).json({ error: "database query failed" });
+
+        }
+        res.json(result);
+
+    })
+})
+
+
+module.exports=app;
