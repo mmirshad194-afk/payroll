@@ -45,7 +45,7 @@ app.post('/insert', (req, res) => {
         res.json({ msg: "Payroll added successfully", payroll_id: result.insertId, gross_salary, total_deductions, net_salary });
       });
     });
-  });
+  });     
 });
 
 app.put('/:id', (req, res) => {
