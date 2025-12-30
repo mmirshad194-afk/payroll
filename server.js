@@ -1,3 +1,4 @@
+const db =require('./db');
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -9,7 +10,7 @@ app.get("/", (req, res) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const db =require('./db');
+
 const earnings=require('./earnings');
 app.use('/earn',earnings);
 const deductions=require('./deduction');
@@ -18,13 +19,10 @@ const employees=require('./employees');
 app.use('/emp',employees);
 const users=require('./payrolluser');
 app.use('/users',users);
-<<<<<<< HEAD
 const attendance=require('./attendance');
 app.use('/att',attendance);
-=======
 const payroll=require('./payroll');
 app.use('/pay',payroll);
->>>>>>> 6e1572a1ba89548044e593370b5146d4e9ad5af5
 
 
 app.listen(8000, () => console.log("Server running"));
