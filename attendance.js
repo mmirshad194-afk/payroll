@@ -1,9 +1,7 @@
 const db=require('./db');
 const express = require('express');
 const app =express();
-
-app.use(express.json());
-app.use(express.urlencoded({extended:true}))
+const router = express.Router();
 
 
 app.post('/insert',(req,res)=>{
@@ -22,11 +20,11 @@ app.post('/insert',(req,res)=>{
 })
 
 
-app.post('update/:id',(req,res)=>{
+app.put('/update/:id',(req,res)=>{
     const id=req.params.id;
-    const{employee_id,total_working_days,present_days,leave_days,overtime_hours,month}=req.body;
+    const {employee_id,total_working_days,present_days,leave_days,overtime_hours,month} =req.body;
 
-    db.query("SELECT * FROM attendance WHERE id=?",[id],(err,rows)=>{
+    db.query("SELECT * FROM attendance WHERE attendance_id=?",[id],(err,rows)=>{
         if(err){
             console.log("fetch error",err);
             return res.status(500).json({error:"query failed"})
@@ -44,22 +42,51 @@ app.post('update/:id',(req,res)=>{
         const updatedovertime_hours=overtime_hours || oldData.overtime_hours;
         const updatedmonth=month || oldData.month;
 
-      db.query("UPDATE attendence SET employee_id=?,total_working_days=?,present_days=?,leave_days=?,overtime_hours=?,month=? WHERE id=?",[employee_id,total_working_days,present_days,leave_days,overtime_hours,month],(err,result)=>{
+      db.query("UPDATE attendance SET employee_id=?,total_working_days=?,present_days=?,leave_days=?,overtime_hours=?,month=? WHERE attendance_id=?",
+        [updatedemployee_id,updatedtotal_working_days,updatedpresent_days,updatedleave_days,updatedovertime_hours,updatedmonth,id],(err,result)=>{
         if(err){
              console.log("update error",err);
             return res.status(500).json({error:"database update failed"})
 
         }
+        res.json({ success: "Data updated successfully", result });
       })
 
-        })
+    })
   })
+
+
+
+  app.get('/get',(req, res) => {
+    db.query('select * from attendance',(err, result) => {
+        if (err) {
+            console.log("error data", err)
+            return res.status(500).json({ error: "database query failed" });
+
+        }
+        res.json(result);
+
+    })
+})
+
+app.get('/getsingle', (req, res) => {
+    const id = req.query.attendance_id;
+    db.query('select * from attendance where attendance_id=?', [id], (err, result) => {
+        if (err) {
+            console.log("error data", err)
+            return res.status(500).json({ error: "database query failed" });
+
+        }
+        res.json(result);
+
+    })
+})
 
 
 app.delete('/delete/:id',(req,res)=>{
     const id= req.params.id;
 
-    db.query('delete from attendence where id=?',[attendence_id],(err,result)=>{
+    db.query('delete from attendance where attendance_id=?',[id],(err,result)=>{
         if(err){
             console.log('error data',err)
             return res.status(500).json({error:"database query failed"})
@@ -67,3 +94,6 @@ app.delete('/delete/:id',(req,res)=>{
         res.json({success:"data deleted successfully",result})
     })
 })
+
+
+module.exports=app;

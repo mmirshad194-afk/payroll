@@ -1,9 +1,8 @@
 const db=require('./db');
 const express = require('express');
 const app =express();
-
-app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+const nodemailer = require('nodemailer');
+const router = express.Router();
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 
@@ -81,8 +80,108 @@ app.get('/check-session', (req, res) => {
 });
 
 
+
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    auth: {
+        user: "sinansinan232t@gmail.com",
+        pass: "nvxu okqc fsxh ldcz"
+    }
+});
+
+
+
+app.post("/forgot-password", (req, res) => {
+    const { email } = req.body;
+    console.log("Email:", email);
+
+    const sql = "SELECT * FROM users WHERE email=?";
+    db.query(sql, [email], (err, rows) => {
+        if (err) return res.status(500).json({ message: "DB error" });
+        if (rows.length === 0) return res.status(400).json({ message: "Email not registered" });
+
+        const otp = Math.floor(100000 + Math.random() * 900000);
+
+        const updateSql = `UPDATE users SET reset_otp=?, otp_expiry=DATE_ADD(NOW(), INTERVAL 5 MINUTE)WHERE email=?`;
+
+        db.query(updateSql, [otp, email], (err) => {
+            if (err) return res.status(500).json({ message: "OTP save error" });
+
+            const mailOptions = {
+                from: "sinansinan232t@gmail.com",
+                to: email,
+                subject: "Password Reset OTP",
+                text: `Your OTP is ${otp}. It is valid for 5 minutes.`
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.error("Mail error:", error);
+                    return res.status(500).json({ message: "Failed to send OTP email" });
+                }
+
+                console.log("Email sent:", info.response);
+                res.json({ message: "OTP sent to email" });
+            });
+        });
+    });
+});  
+
+app.post("/verify-otp", (req, res) => {
+    const { email, otp } = req.body;
+
+    const sql = `SELECT * FROM users WHERE email=? AND reset_otp=? AND otp_expiry > NOW()`;
+
+    db.query(sql, [email, otp], (err, rows) => {
+        if (err) return res.status(500).json({ message: "DB error" });
+        if (!rows.length) return res.status(400).json({ message: "Invalid or expired OTP" }); 
+        
+    const clearOtpSql = `UPDATE users SET reset_otp=NULL, otp_expiry=NULL WHERE email=?`;
+
+db.query(clearOtpSql, [email], (err2) => {
+    if (err2) return res.status(500).json({ message: "OTP clear failed" });
+
+    res.json({ message: "OTP verified" });
+
+
+    });
+ });
+});
+
+app.post("/reset-password", async (req, res) => {
+    const { email, newPassword } = req.body;
+
+    const hash = await bcrypt.hash(newPassword, 10);
+
+    const sql = `UPDATE users SET password=?, reset_otp=NULL, otp_expiry=NULL WHERE email=?`;
+
+    db.query(sql, [hash, email], (err) => {
+        if (err) return res.status(500).json({ message: "Password update failed" });
+
+        res.json({ message: "Password reset successful" });
+    });
+});  
+
+  
+
+
 app.get('/get', (req, res) => {
     db.query('select * from users', (err, result) => {
+        if (err) {
+            console.log("error data", err)
+            return res.status(500).json({ error: "database query failed" });
+
+        }
+        res.json(result);
+
+    })
+})
+
+app.get('/getsingle', (req, res) => {
+    const id = req.query.user_id;
+    db.query('select * from users where user_id=?', [id], (err, result) => {
         if (err) {
             console.log("error data", err)
             return res.status(500).json({ error: "database query failed" });
@@ -128,11 +227,10 @@ app.put('/update/:id', (req, res) => {
         const updatedname = name || oldData.name;
         const updatedpass = password || oldData.password;
         const updatedemail = email || oldData.email;
-        // const updatedPhone = phone || oldData.phone;
-
+        
 
         db.query(
-            "UPDATE users SET password=?, email=? WHERE user_id=?",
+            "UPDATE users SET name=?, password=?, email=? WHERE user_id=?",
             [updatedname,updatedpass, updatedemail,user_id],
             (err, result) => {
                 if (err) {
