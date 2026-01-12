@@ -7,11 +7,11 @@ app.use(express.urlencoded({ extended: true }))
 
 
 app.post('/insert', (req, res) => {
-    const { employee_id, total_working_days, present_days, leave_days, overtime_hours, month } = req.body;
-    console.log("datas", employee_id, total_working_days, present_days, leave_days, overtime_hours, month);
+    const { employee_id, total_working_days, present_days, leave_days, overtime_hours, month_year } = req.body;
+    console.log("datas", employee_id, total_working_days, present_days, leave_days, overtime_hours, month_year);
 
-    db.query('INSERT INTO attendance(employee_id,total_working_days,present_days,leave_days,overtime_hours,month) VALUES (?,?,?,?,?,?)',
-        [employee_id, total_working_days, present_days, leave_days, overtime_hours, month], (err, result) => {
+    db.query('INSERT INTO attendance(employee_id,total_working_days,present_days,leave_days,overtime_hours,month_year) VALUES (?,?,?,?,?,?)',
+        [employee_id, total_working_days, present_days, leave_days, overtime_hours, month_year], (err, result) => {
             if (err) {
                 console.log("error data", err)
                 return res.status(500).json({ error: "database query failed" })
@@ -24,7 +24,7 @@ app.post('/insert', (req, res) => {
 
 app.put('/update/:id', (req, res) => {
     const id = req.params.id;
-    const { employee_id, total_working_days, present_days, leave_days, overtime_hours, month } = req.body;
+    const { employee_id, total_working_days, present_days, leave_days, overtime_hours, month_year } = req.body;
 
     db.query("SELECT * FROM attendance WHERE attendance_id=?", [id], (err, rows) => {
         if (err) {
@@ -42,10 +42,10 @@ app.put('/update/:id', (req, res) => {
         const updatedpresent_days = present_days || oldData.present_days;
         const updatedleave_days = leave_days || oldData.leave_days;
         const updatedovertime_hours = overtime_hours || oldData.overtime_hours;
-        const updatedmonth = month || oldData.month;
+        const updatedmonth_year = month_year || oldData.month_year
 
-        db.query("UPDATE attendance SET employee_id=?,total_working_days=?,present_days=?,leave_days=?,overtime_hours=?,month=? WHERE attendance_id=?",
-            [updatedemployee_id, updatedtotal_working_days, updatedpresent_days, updatedleave_days, updatedovertime_hours, updatedmonth, id], (err, result) => {
+        db.query("UPDATE attendance SET employee_id=?,total_working_days=?,present_days=?,leave_days=?,overtime_hours=?,month_year=? WHERE attendance_id=?",
+            [updatedemployee_id, updatedtotal_working_days, updatedpresent_days, updatedleave_days, updatedovertime_hours, updatedmonth_year, id], (err, result) => {
                 if (err) {
                     console.log("update error", err);
                     return res.status(500).json({ error: "database update failed" })
