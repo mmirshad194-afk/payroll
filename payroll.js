@@ -24,7 +24,7 @@ app.get('/:id', (req, res) => {
 app.post('/insert', (req, res) => {
   const { employee_id, month_year } = req.body;
 
-  // Earnings fetch for given month
+  
   const earningsQuery = `
     SELECT basic_salary, hra, travel_allowance,overtime_pay 
     FROM earnings 
