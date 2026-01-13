@@ -25,11 +25,11 @@ app.use((req,res,next)=>{
 })
 
 app.post('/signup',async(req,res)=>{
-    const { name,email,password} = req.body;
-    console.log("datas",name,email,password);
+    const { name,phone,batch,email,password} = req.body;
+    console.log("datas",name,phone,batch,email,password);
     const hashpassword = await bcrypt.hash(password,10);
 
-    db.query('INSERT INTO users ( name,email,password ) VALUES (?,?,?)',[name,email,hashpassword],(err,result) => {
+    db.query('INSERT INTO users ( name,phone,batch,email,password ) VALUES (?,?,?,?,?)',[name,phone,batch,email,hashpassword],(err,result) => {
         if(err){
             console.log("error data",err);
             return res.status(500).json({error:"database query filed" })
@@ -208,7 +208,7 @@ app.delete('/delete/:id', (req, res) => {
 
 app.put('/update/:id', (req, res) => {
     const user_id = req.params.id;
-    const {name,password, email,} = req.body;
+    const {name,phone,batch,email,password} = req.body;
 
 
     db.query("SELECT * FROM users WHERE user_id = ?", [user_id], (err, rows) => {
@@ -225,13 +225,15 @@ app.put('/update/:id', (req, res) => {
 
 
         const updatedname = name || oldData.name;
+        const updatedphone = phone || oldData.phone;
+        const updatedbatch = batch || oldData.batch;
         const updatedpass = password || oldData.password;
         const updatedemail = email || oldData.email;
         
 
         db.query(
-            "UPDATE users SET name=?, password=?, email=? WHERE user_id=?",
-            [updatedname,updatedpass, updatedemail,user_id],
+            "UPDATE users SET name=?, phone=?, batch=?, password=?, email=? WHERE user_id=?",
+            [updatedname,updatedphone,updatedbatch,updatedpass,updatedemail,user_id],
             (err, result) => {
                 if (err) {
                     console.log("Update error", err);

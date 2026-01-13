@@ -8,7 +8,7 @@ const router = express.Router();
 
 app.post('/insert',(req,res)=>{ 
     const {name,department,salary_type,joining_date, status}=req.body;
-    console.log("datas",name,department,salary_type,joining_date, status);
+    console.log("datas",name,department,salary_type,joining_date,status);
     
 db.query('INSERT INTO employees(name,department,salary_type,joining_date, status) VALUES (?,?,?,?,?)',
     [name,department,salary_type,joining_date, status],(err,result)=>{
