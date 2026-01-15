@@ -39,7 +39,7 @@ app.post('/signup',async(req,res)=>{
 }) 
 
 app.post('/login',(req,res) =>{
-    const { email,password} = req.body;
+   const { email,password} = req.body;
 
     const sql = "SELECT * FROM users WHERE email = ?"
     db.query(sql,[email], async(err,rows)=>{
@@ -54,8 +54,6 @@ app.post('/login',(req,res) =>{
             req.session.userId = user.id;
             req.session.email = user.email;
         
-            req.session.userId = user.id;
-            req.session.email = user.email;
 
      return res.json({
         message: 'login successful',
