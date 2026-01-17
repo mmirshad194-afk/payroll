@@ -4,16 +4,16 @@ const db = require("./db");
 
 const router = express.Router();
 app.post("/insert", (req, res) => {
-    const { employee_id, pf, esi, professional_tax, loan_deduction, late_penalty, month_year } = req.body;
+    const { employee_id, pf, esi, professional_tax, loan_deduction, month_year } = req.body;
 
     const sql = `
         INSERT INTO deductions 
-        (employee_id, pf, esi, professional_tax, loan_deduction, late_penalty, month_year)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        (employee_id, pf, esi, professional_tax, loan_deduction,month_year)
+        VALUES (?, ?, ?, ?, ?, ?)
     `;
 
     db.query(sql,
-        [employee_id, pf, esi, professional_tax, loan_deduction, late_penalty, month_year],
+        [employee_id, pf, esi, professional_tax, loan_deduction, month_year],
         (err) => {
             if (err) return res.status(500).json(err);
             res.json({ message: "Deduction added" });
@@ -43,7 +43,6 @@ app.put("/update/:id", (req, res) => {
       esi = COALESCE(?, esi),
       professional_tax = COALESCE(?, professional_tax),
       loan_deduction = COALESCE(?, loan_deduction),
-      late_penalty = COALESCE(?, late_penalty),
       month_year = COALESCE(?, month_year)
     WHERE deduction_id = ?
   `;
@@ -55,7 +54,6 @@ app.put("/update/:id", (req, res) => {
       d.esi || null,
       d.professional_tax || null,
       d.loan_deduction || null,
-      d.late_penalty || null,
       d.month_year || null,
       id
     ],

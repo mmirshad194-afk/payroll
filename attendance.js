@@ -6,121 +6,157 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
 
-app.post('/insert', (req, res) => {
-    const { employee_id, total_working_days, present_days, leave_days, overtime_hours, month_year } = req.body;
-    console.log("datas", employee_id, total_working_days, present_days, leave_days, overtime_hours, month_year);
-
-    db.query('INSERT INTO attendance(employee_id,total_working_days,present_days,leave_days,overtime_hours,month_year) VALUES (?,?,?,?,?,?)',
-        [employee_id, total_working_days, present_days, leave_days, overtime_hours, month_year], (err, result) => {
-            if (err) {
-                console.log("error data", err)
-                return res.status(500).json({ error: "database query failed" })
-
-            }
-            res.json({ success: "data inserted successfully", result })
-        })
-})
 
 
-app.put('/update/:id', (req, res) => {
-    const id = req.params.id;
-    const { employee_id, total_working_days, present_days, leave_days, overtime_hours, month_year } = req.body;
+app.post('/add', (req, res) => {
+  const {
+    employee_id,
+    month_year,
+    total_working_days,
+    present_days,
+    late_count
+  } = req.body;
 
-    db.query("SELECT * FROM attendance WHERE attendance_id=?", [id], (err, rows) => {
-        if (err) {
-            console.log("fetch error", err);
-            return res.status(500).json({ error: "query failed" })
+  if (!employee_id || !month_year || !total_working_days || !present_days) {
+    return res.status(400).json({ msg: "All fields required" });
+  }
+
+  if (present_days > total_working_days) {
+    return res.status(400).json({
+      msg: "Present days cannot exceed working days"
+    });
+  }
+
+  const actual_leave = total_working_days - present_days;
+  const late_half_leave = Math.floor((late_count || 0) / 2) * 0.5;
+  const total_leave = actual_leave + late_half_leave;
+
+  const sql = `
+    INSERT INTO attendance
+    (employee_id, month_year, total_working_days, present_days, leave_days, late_count)
+    VALUES (?,?,?,?,?,?)`;
+
+  db.query(
+    sql,
+    [
+      employee_id,
+      month_year,
+      total_working_days,
+      present_days,
+      total_leave,
+      late_count || 0
+    ],
+    (err, result) => {
+      if (err) {
+        if (err.code === 'ER_DUP_ENTRY') {
+          return res.status(400).json({
+            msg: "Attendance already added for this month"
+          });
         }
-        if (rows.length === 0) {
-            return res.status(404).json({ error: "user not found" })
-        }
+        return res.status(500).json(err);
+      }
 
-        const oldData = rows[0];
+      res.json({
+        msg: "✅ Attendance added successfully",
+        leave_days: total_leave
+      });
+    }
+  );
+});
 
-        const updatedemployee_id = employee_id || oldData.employee_id;
-        const updatedtotal_working_days = total_working_days || oldData.total_working_days;
-        const updatedpresent_days = present_days || oldData.present_days;
-        const updatedleave_days = leave_days || oldData.leave_days;
-        const updatedovertime_hours = overtime_hours || oldData.overtime_hours;
-        const updatedmonth_year = month_year || oldData.month_year
+app.get('/attendance/:employee_id/:month_year', (req, res) => {
+  const { employee_id, month_year } = req.params;
 
-        db.query("UPDATE attendance SET employee_id=?,total_working_days=?,present_days=?,leave_days=?,overtime_hours=?,month_year=? WHERE attendance_id=?",
-            [updatedemployee_id, updatedtotal_working_days, updatedpresent_days, updatedleave_days, updatedovertime_hours, updatedmonth_year, id], (err, result) => {
-                if (err) {
-                    console.log("update error", err);
-                    return res.status(500).json({ error: "database update failed" })
+  const sql = `
+    SELECT *
+    FROM attendance
+    WHERE employee_id=? AND month_year=?`;
 
-                }
-                res.json({ success: "Data updated successfully", result });
-            })
+  db.query(sql, [employee_id, month_year], (err, rows) => {
+    if (err) return res.status(500).json(err);
+    if (!rows.length)
+      return res.status(404).json({ msg: "Attendance not found" });
 
-        res.json({ success: "data updated successfully", result })
-    })
-})
+    res.json(rows[0]);
+  });
+});
 
+app.get('/attendance', (req, res) => {
+  db.query("SELECT * FROM attendance", (err, rows) => {
+    if (err) return res.status(500).json(err);
+    res.json(rows);
+  });
+});
 
+app.get('/attendance/month/:month_year', (req, res) => {
+  const { month_year } = req.params;
 
+  const sql = `
+    SELECT *
+    FROM attendance
+    WHERE month_year=?`;
 
-app.get('/get', (req, res) => {
-    db.query('select * from attendance', (err, result) => {
-        if (err) {
-            console.log("error data", err)
-            return res.status(500).json({ error: "database query failed" });
+  db.query(sql, [month_year], (err, rows) => {
+    if (err) return res.status(500).json(err);
+    res.json(rows);
+  });
+});
 
-        }
-        res.json(result);
+app.put('/attendance/update/:attendance_id', (req, res) => {
+  const {
+    total_working_days,
+    present_days,
+    late_count
+  } = req.body;
 
-    })
-})
+  if (present_days > total_working_days) {
+    return res.status(400).json({
+      msg: "Present days cannot exceed working days"
+    });
+  }
 
-app.get('/getsingle', (req, res) => {
-    const id = req.query.attendance_id;
-    db.query('select * from attendance where attendance_id=?', [id], (err, result) => {
-        if (err) {
-            console.log("error data", err)
-            return res.status(500).json({ error: "database query failed" });
+  const actual_leave = total_working_days - present_days;
+  const late_half_leave = Math.floor((late_count || 0) / 2) * 0.5;
+  const total_leave = actual_leave + late_half_leave;
 
-        }
-        res.json(result);
+  const sql = `
+    UPDATE attendance
+    SET total_working_days=?,
+        present_days=?,
+        leave_days=?,
+        late_count=?
+    WHERE attendance_id=?`;
 
-    })
-})
+  db.query(
+    sql,
+    [
+      total_working_days,
+      present_days,
+      total_leave,
+      late_count || 0,
+      req.params.attendance_id
+    ],
+    (err, result) => {
+      if (err) return res.status(500).json(err);
 
+      res.json({
+        msg: "✅ Attendance updated",
+        leave_days: total_leave
+      });
+    }
+  );
+});
 
-app.delete('/delete/:id', (req, res) => {
-    const id = req.params.id;
+app.delete('/attendance/delete/:attendance_id', (req, res) => {
+  const sql = `
+    DELETE FROM attendance
+    WHERE attendance_id=?`;
 
-    db.query('delete from attendance where attendance_id=?', [id], (err, result) => {
-        if (err) {
-            console.log('error data', err)
-            return res.status(500).json({ error: "database query failed" })
-        }
-        res.json({ success: "data deleted successfully", result })
-    })
-})
+  db.query(sql, [req.params.attendance_id], (err, result) => {
+    if (err) return res.status(500).json(err);
 
-app.get('/get', (req, res) => {
-    db.query('select * from attendence whwre id=1', (err, result) => {
-        if (err) {
-            console.log("error data", err)
-            return res.status(500).json({ error: "database query failed" })
-
-        }
-        res.json(result);
-    })
-})
-
-app.get('/get', (req, res) => {
-    db.query('select * from attendence', (err, result) => {
-        if (err) {
-            console.log("error data", err)
-            return res.status(500).json({ error: "database query failed" });
-
-        }
-        res.json(result);
-
-    })
-})
-
+    res.json({ msg: "🗑️ Attendance deleted" });
+  });
+});
 
 module.exports = app;

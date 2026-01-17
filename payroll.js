@@ -3,108 +3,326 @@ const express = require('express');
 const app =express();
 
 
-app.get('/readall', (req, res) => {
-  const sql = "SELECT * FROM payroll";
-  db.query(sql, (err, results) => {
-    if (err) return res.status(500).json(err);
-    res.json(results);
-  });
-});
-
-app.get('/:id', (req, res) => {
-  const { id } = req.params;
-  const sql = "SELECT * FROM payroll WHERE employee_id=?";
-  db.query(sql, [id], (err, results) => {
-    if (err) return res.status(500).json(err);
-    res.json(results);
-  });
-});
 
 
-app.post('/insert', (req, res) => {
+
+
+// app.post('/add', (req, res) => {
+//   const { employee_id, month_year } = req.body;
+
+//   if (!employee_id || !month_year) {
+//     return res.status(400).json({ msg: "employee_id & month_year required" });
+//   }
+
+//   /* ===== ATTENDANCE ===== */
+//   const attQ = `
+//     SELECT total_working_days, present_days, leave_days, late_count
+//     FROM attendance
+//     WHERE employee_id=? AND month_year=?`;
+
+//   db.query(attQ, [employee_id, month_year], (err, att) => {
+//     if (err) return res.status(500).json(err);
+//     if (!att.length)
+//       return res.status(404).json({ msg: "Attendance not found" });
+
+//     const {
+//       total_working_days,
+//       present_days,
+//       leave_days,
+//       late_count
+//     } = att[0];
+
+//     /* ===== EARNINGS ===== */
+//     const earnQ = `
+//       SELECT basic_salary, hra, travel_allowance, overtime_pay
+//       FROM earnings
+//       WHERE employee_id=? AND month_year=?`;
+
+//     db.query(earnQ, [employee_id, month_year], (err, earn) => {
+//       if (err) return res.status(500).json(err);
+//       if (!earn.length)
+//         return res.status(404).json({ msg: "Earnings not found" });
+
+//       const basic = Number(earn[0].basic_salary);
+//       const gross =
+//         basic +
+//         Number(earn[0].hra || 0) +
+//         Number(earn[0].travel_allowance || 0) +
+//         Number(earn[0].overtime_pay || 0);
+
+//       /* ===== DEDUCTIONS ===== */
+//       const dedQ = `
+//         SELECT pf, esi, professional_tax, loan_deduction
+//         FROM deductions
+//         WHERE employee_id=? AND month_year=?`;
+
+//       db.query(dedQ, [employee_id, month_year], (err, ded) => {
+//         if (err) return res.status(500).json(err);
+//         if (!ded.length)
+//           return res.status(404).json({ msg: "Deductions not found" });
+
+//         const other_deductions =
+//           Number(ded[0].pf || 0) +
+//           Number(ded[0].esi || 0) +
+//           Number(ded[0].professional_tax || 0) +
+//           Number(ded[0].loan_deduction || 0);
+
+//         /* ===== LEAVE DEDUCTION ===== */
+//         const per_day_salary = basic / total_working_days;
+//         const leave_deduction = per_day_salary * leave_days;
+
+//         const total_deductions =
+//           leave_deduction + other_deductions;
+
+//         const net_salary = gross - total_deductions;
+
+//         /* ===== INSERT PAYROLL ===== */
+//         const insertQ = `
+//           INSERT INTO payroll
+//           (employee_id, month_year,
+//            total_working_days, present_days, leave_days, late_count,
+//            gross_salary, leave_deduction, other_deductions,
+//            total_deductions, net_salary)
+//           VALUES (?,?,?,?,?,?,?,?,?,?,?)`;
+
+//         db.query(
+//           insertQ,
+//           [
+//             employee_id,
+//             month_year,
+//             total_working_days,
+//             present_days,
+//             leave_days,
+//             late_count,
+//             gross,
+//             leave_deduction,
+//             other_deductions,
+//             total_deductions,
+//             net_salary
+//           ],
+//           (err, result) => {
+//             if (err) {
+//               if (err.code === 'ER_DUP_ENTRY') {
+//                 return res.status(400).json({
+//                   msg: "Payroll already generated for this month"
+//                 });
+//               }
+//               return res.status(500).json(err);
+//             }
+
+//             res.json({
+//               msg: "✅ Payroll generated successfully",
+//               gross_salary: gross,
+//               leave_deduction,
+//               total_deductions,
+//               net_salary
+//             });
+//           }
+//         );
+//       });
+//     });
+//   });
+// });
+
+
+app.post('/add', (req, res) => {
   const { employee_id, month_year } = req.body;
 
-  
-  const earningsQuery = `
-    SELECT basic_salary, hra, travel_allowance,overtime_pay 
-    FROM earnings 
+  if (!employee_id || !month_year) {
+    return res.status(400).json({ msg: "employee_id & month_year required" });
+  }
+
+  /* ===== ATTENDANCE ===== */
+  const attQ = `
+    SELECT total_working_days, present_days, leave_days, late_count
+    FROM attendance
     WHERE employee_id=? AND month_year=?`;
 
-  db.query(earningsQuery, [employee_id, month_year], (err, earnings) => {
+  db.query(attQ, [employee_id, month_year], (err, att) => {
     if (err) return res.status(500).json(err);
-    if (earnings.length === 0) {
-      return res.status(404).json({ msg: "❌ Earnings not found for this month" });
-    }
+    if (!att.length)
+      return res.status(404).json({ msg: "Attendance not found" });
 
-    const gross = earnings[0].basic_salary +
-                  (earnings[0].hra || 0) +
-                  (earnings[0].travel_allowance || 0) +
-                  (earnings[0].overtime_pay || 0);
+    const {
+      total_working_days,
+      present_days,
+      leave_days,
+      late_count
+    } = att[0];
 
-    // Deductions fetch for same month
-    const deductionsQuery = `
-      SELECT pf, esi, professional_tax, loan_deduction, late_penalty
-      FROM deductions 
+    /* ===== EARNINGS ===== */
+    const earnQ = `
+      SELECT basic_salary, hra, travel_allowance, overtime_pay
+      FROM earnings
       WHERE employee_id=? AND month_year=?`;
 
-    db.query(deductionsQuery, [employee_id, month_year], (err, deductions) => {
+    db.query(earnQ, [employee_id, month_year], (err, earn) => {
       if (err) return res.status(500).json(err);
-      if (deductions.length === 0) {
-        return res.status(404).json({ msg: "❌ Deductions not found for this month" });
-      }
+      if (!earn.length)
+        return res.status(404).json({ msg: "Earnings not found" });
 
-      const total_deduct = (deductions[0].pf || 0) +
-                           (deductions[0].esi || 0) +
-                           (deductions[0].professional_tax || 0) +
-                           (deductions[0].loan_deduction || 0)+
-                           (deductions[0].late_penalty || 0);
+      const basic = Number(earn[0].basic_salary);
+      const gross =
+        basic +
+        Number(earn[0].hra || 0) +
+        Number(earn[0].travel_allowance || 0) +
+        Number(earn[0].overtime_pay || 0);
 
+      /* ===== PAID LEAVE CALCULATION (METHOD-2) ===== */
 
-      const net = gross - total_deduct;
+      // earned paid leave = months worked + current month
+      db.query(
+        `SELECT COUNT(*) AS earned FROM payroll WHERE employee_id=?`,
+        [employee_id],
+        (err, er) => {
+          if (err) return res.status(500).json(err);
 
-      // Insert to payroll
-      const insertQuery = `
-        INSERT INTO payroll(employee_id, month_year, gross_salary, total_deductions, net_salary)
-        VALUES (?,?,?,?,?)`;
+          const earned_PL = er[0].earned + 1;
 
-      db.query(insertQuery, [employee_id, month_year, gross, total_deduct, net], (err, result) => {
-        if (err.code === 'ER_DUP_ENTRY') {
-        return res.status(400).json({
-          msg: "Payroll already generated for this employee for this month"
-        });
-      }
-        if (err) return res.status(500).json(err);
-        res.json({
-          msg: "✅ Payroll added successfully",
-          payroll_id: result.insertId,
-          gross_salary: gross,
-          deductions: total_deduct,
-          net_salary: net
-        });
-      });
+          // already used paid leave
+          db.query(
+            `SELECT IFNULL(SUM(paid_leave_used),0) AS used
+             FROM payroll WHERE employee_id=?`,
+            [employee_id],
+            (err, us) => {
+              if (err) return res.status(500).json(err);
+
+              const used_PL = us[0].used;
+              const balance_PL = earned_PL - used_PL;
+
+              const paid_leave_used = Math.min(balance_PL, leave_days);
+              const unpaid_leave = leave_days - paid_leave_used;
+
+              /* ===== LEAVE DEDUCTION ===== */
+              const per_day_salary = basic / total_working_days;
+              const leave_deduction = unpaid_leave * per_day_salary;
+
+              /* ===== DEDUCTIONS ===== */
+              const dedQ = `
+                SELECT pf, esi, professional_tax, loan_deduction
+                FROM deductions
+                WHERE employee_id=? AND month_year=?`;
+
+              db.query(dedQ, [employee_id, month_year], (err, ded) => {
+                if (err) return res.status(500).json(err);
+
+                const other_deductions =
+                  Number(ded[0]?.pf || 0) +
+                  Number(ded[0]?.esi || 0) +
+                  Number(ded[0]?.professional_tax || 0) +
+                  Number(ded[0]?.loan_deduction || 0);
+
+                const total_deductions =
+                  leave_deduction + other_deductions;
+
+                const net_salary = gross - total_deductions;
+
+                /* ===== INSERT PAYROLL ===== */
+                const insertQ = `
+                  INSERT INTO payroll
+                  (employee_id, month_year,
+                   total_working_days, present_days, leave_days, late_count,
+                   gross_salary, leave_deduction, other_deductions,
+                   total_deductions, net_salary,
+                   paid_leave_used, unpaid_leave)
+                  VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)`;
+
+                db.query(
+                  insertQ,
+                  [
+                    employee_id,
+                    month_year,
+                    total_working_days,
+                    present_days,
+                    leave_days,
+                    late_count,
+                    gross,
+                    leave_deduction,
+                    other_deductions,
+                    total_deductions,
+                    net_salary,
+                    paid_leave_used,
+                    unpaid_leave
+                  ],
+                  (err) => {
+                    if (err && err.code === 'ER_DUP_ENTRY') {
+                      return res.status(400).json({
+                        msg: "Payroll already generated for this month"
+                      });
+                    }
+                    if (err) return res.status(500).json(err);
+
+                    res.json({
+                      msg: "✅ Payroll generated (Method-2)",
+                      earned_paid_leave: earned_PL,
+                      paid_leave_used,
+                      unpaid_leave,
+                      leave_deduction,
+                      net_salary
+                    });
+                  }
+                );
+              });
+            }
+          );
+        }
+      );
     });
   });
 });
 
 
-app.put('/:id', (req, res) => {
-  const { id } = req.params;
-  const { gross_salary, total_deductions, net_salary } = req.body;
+app.get('/payroll/:employee_id/:month_year', (req, res) => {
+  const { employee_id, month_year } = req.params;
 
-  const sql = "UPDATE payroll SET gross_salary=COALESCE(?,gross_salary), total_deductions=COALESCE(?,total_deductions), net_salary=COALESCE(?,net_salary) WHERE payroll_id=?";
-  db.query(sql, [gross_salary, total_deductions, net_salary, id], (err, result) => {
+  const sql = `
+    SELECT *
+    FROM payroll
+    WHERE employee_id=? AND month_year=?`;
+
+  db.query(sql, [employee_id, month_year], (err, rows) => {
     if (err) return res.status(500).json(err);
-    res.json({ msg: "Payroll updated successfully" });
+    if (!rows.length)
+      return res.status(404).json({ msg: "Payroll not found" });
+
+    res.json(rows[0]);
   });
 });
 
-app.delete('/:id', (req, res) => {
-  const { id } = req.params;
-  const sql = "DELETE FROM payroll WHERE payroll_id=?";
-  db.query(sql, [id], (err, result) => {
+app.get('/payroll', (req, res) => {
+  db.query("SELECT * FROM payroll", (err, rows) => {
     if (err) return res.status(500).json(err);
-    res.json({ msg: "Payroll deleted successfully" });
+    res.json(rows);
+  });
+});
+
+app.get('/payroll/month/:month_year', (req, res) => {
+  const { month_year } = req.params;
+
+  const sql = `
+    SELECT *
+    FROM payroll
+    WHERE month_year=?`;
+
+  db.query(sql, [month_year], (err, rows) => {
+    if (err) return res.status(500).json(err);
+    res.json(rows);
+  });
+});
+
+app.delete('/payroll/delete/:payroll_id', (req, res) => {
+  const sql = `
+    DELETE FROM payroll
+    WHERE payroll_id=?`;
+
+  db.query(sql, [req.params.payroll_id], (err) => {
+    if (err) return res.status(500).json(err);
+    res.json({ msg: "🗑️ Payroll deleted" });
   });
 });
 
 module.exports = app;
+
+
+
+
