@@ -221,21 +221,16 @@ app.post('/add', (req, res) => {
                 const insertQ = `
                   INSERT INTO payroll
                   (employee_id, month_year,
-                   total_working_days, present_days, leave_days, late_count,
                    gross_salary, leave_deduction, other_deductions,
                    total_deductions, net_salary,
                    paid_leave_used, unpaid_leave)
-                  VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)`;
+                  VALUES (?,?,?,?,?,?,?,?,?)`;
 
                 db.query(
                   insertQ,
                   [
                     employee_id,
                     month_year,
-                    total_working_days,
-                    present_days,
-                    leave_days,
-                    late_count,
                     gross,
                     leave_deduction,
                     other_deductions,
