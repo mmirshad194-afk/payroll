@@ -1,0 +1,1385 @@
+
+
+h1{margin-top:0}
+table{
+  width:100%;border-collapse:collapse;background:#0c717a;border-radius:8px;overflow:hidden;
+}
+th,td{
+  padding:12px;border-bottom:1px solid #eee;text-align:left;
+}
+tr:hover{background:#f1f5ff}
+.card{
+  padding:20px;background:white;border-radius:10px;margin-bottom:16px;
+}
+.grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+}
+
+:root {
+  --primary: #a55626;
+  --primary-light: #0c717a;
+  --sand: #B9A590;
+  --white: #F8FAFA;
+  --text-dark: #0c717a;
+  --light-bg: #f5f7f8;   
+  --shadow: rgba(0, 0, 0, 0.06);
+ 
+}
+
+
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: var(--light-bg);
+  display: flex;
+  color: var(--text-dark);
+}
+
+
+.sidebar {
+  width: 240px;
+  background: var(--white);
+  padding: 25px 20px;
+  height: 100vh;
+  box-shadow: 2px 0 10px var(--shadow);
+  position: fixed;
+  border-right: 4px solid var(--primary);
+}
+
+
+
+.sidebar a {
+  display: block;
+  text-decoration: bolder;
+  padding: 12px 14px;
+  margin: 8px 0;
+  color: var(--text-dark);
+  border-radius: 8px;
+  font-size: 15px;
+  transition: 0.2s ease-in-out;
+}
+
+.sidebar a:hover {
+  background: var(--primary-light);
+  color: white;
+}
+
+.sidebar a.active {
+  background: var(--primary);
+  color: white;
+}
+
+
+.content {
+  margin-left: 260px;
+  padding: 30px;
+  width: calc(100% - 260px);
+}
+table input {
+  width: 80px;
+  padding: 6px;
+  text-align: center;
+  border: 1px solid #0c717a;
+  border-radius: 30px;
+  font-size: 14px;
+}
+
+table input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(12, 113, 122, 0.25);
+}
+
+h1 {
+  margin-top: 0;
+  color: var(--primary);
+  font-size: 28px;
+  font-weight: 700;
+}
+
+/* ============================
+   Cards
+   ============================ */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.card {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 22px;
+  box-shadow: 0 4px 10px var(--shadow);
+  font-size: 18px;
+  color: var(--text-dark);
+  transition: 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 14px var(--shadow);
+}
+
+.card strong {
+  color: var(--primary);
+  font-size: 22px;
+}
+
+/* ============================
+   Tables
+   ============================ */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background:transparent;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px var(--shadow);
+  overflow: hidden;
+}
+
+th {
+  background: var(--primary);
+  color: white;
+  padding: 14px;
+  text-align: left;
+  font-size: 16px;
+}
+
+td {
+  padding: 14px;
+  border-bottom: 1px solid #e9e9e9;
+  font-size: 15px;
+}
+
+tr:hover {
+  background: #e6f4f5;
+}
+/* ==========================
+   Payroll Calculate Button
+========================== */
+.-primary {
+  display: block;
+  margin: 30px auto 0;                          
+  padding: 16px 45px;                  
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  text-align: center;
+  border: none;
+  border-radius: 8px;
+  min-width: 240px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #0c717a, #a55626, #f5a623); /* multi-color gradient */
+  background-size: 300% 300%;                    
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* Hover effect - gradient shifts and button lifts slightly */
+.btn-primary:hover {
+  background: linear-gradient(135deg, #f5a623, #a55626, #0c717a); /* reversed gradient */
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+}
+
+/* Click effect */
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* Optional: Animated gradient continuously moving */
+.btn-primary.animate-gradient {
+  animation: gradientMove 4s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+
+
+
+
+.topbar {
+  position: fixed;
+  right: 20px;
+  top: 15px;
+  z-index: 2000;
+}
+
+.login-btn {
+  background: var(--primary);
+  color:black;
+  padding: 10px 18px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  transition: 0.2s;
+}
+
+.login-btn:hover {
+  background: var(--primary-light);
+}
+
+/* Sidebar */
+.sidebar {
+  width: 200px;
+  height: 100vh;
+  background:#0F6D66;
+  color: white;
+  position: fixed;
+  padding: 20px;
+  
+}
+
+.sidebar img{
+  width:90px;
+  position: relative;
+  left: 55px;
+  
+}
+
+
+.sidebar a {
+  display: block;
+  color: #7fcb1c;
+  padding: 20px;
+  text-decoration:none;
+  
+  margin: 5px 0;
+  border-radius:5px;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+  background: #0c717a;
+}
+/* ==========================
+   Sidebar Logo Top Center
+========================== */
+.sidebar-logo {
+  text-align: center;       
+  margin-bottom: 20px;      
+}
+
+.sidebar-logo img {
+  width: 100px;             
+  height: auto;
+  display: inline-block;
+  border-radius: 8px;      
+}
+
+.content {
+  position: relative;
+  padding: 30px;
+  min-height: 100vh;
+  background: #f8f9fa;
+  overflow:hidden;
+}
+
+/* Logo watermark */
+.content::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 420px;
+  height: 140px;
+  background: url("NewLogoIQ.png") no-repeat center;
+  background-size: contain;
+  opacity: 0.1;   
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.content > * {
+  position: relative;
+  z-index: 1;
+}
+
+.form-group {
+  text-align: left;
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+  text-align: l;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+.add-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #0c717a;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Modal background */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* Modal box */
+.modal-content {
+  background:#0c717a;
+  position:justify;
+  width: 400px;
+  padding: 20px;
+  margin: 80px auto;
+  border-radius: 8px;
+}
+
+/* Close button */
+.close {
+  float: right;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* Inputs */
+input, select {
+  width: 100%;
+  padding: 8px;
+}
+.emp-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: transparent ;
+}
+
+.emp-table thead,
+.emp-table tbody,
+.emp-table tr {
+  background: transparent !important;
+}
+
+.emp-table th,
+.emp-table td {
+  background: rgba(255, 255, 255, 0.05) !important; /* very light */
+  color:transparent;
+  padding: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+/* Header slightly visible */
+.emp-table th {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Hover effect */
+.emp-table tr:hover td {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+ 
+.login-links {
+  margin-top: 6px;
+  text-align: right;
+  font-size: 13px;
+}
+
+.login-links a {
+  color: #0c717a;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.login-links span {
+  margin: 0 6px;
+  color: #0c717a;
+}
+
+/* MODAL OVERLAY */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+
+  display: none;               
+  justify-content: center;
+  align-items: center;
+}
+
+/* MODAL BOX (SCROLLS INSIDE) */
+.modal-content {
+  background:white;
+  padding: 30px 35px;
+  width: 400px;
+  max-height: 80vh;            
+  overflow-y: auto;            
+  border-radius: 12px;
+  box-shadow:none;
+  position: relative;
+}
+
+/* DISABLE BACKGROUND SCROLL */
+body.modal-open {
+  overflow: hidden;
+  }
+.modal-content {
+  scrollbar-width: thin;
+  scrollbar-color: #0c717a #f1f1f1;
+}
+
+/* CLOSE BUTTON */
+.close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 35px;
+  color:#a55626;
+  cursor: pointer;
+}
+
+/* HEADING */
+.modal-content h2 {
+  text-align: center;
+  color: #a55626;
+  margin-bottom: 25px;
+}
+
+/* LABELS */
+.modal-content label {
+  color:black;
+  font-weight: bold;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* INPUTS & SELECT */
+.modal-content input,
+.modal-content select {
+  width: 100%;
+  padding: 11px;
+  margin-bottom: 18px;
+  border-radius: 5px;
+  border-color: #0c717a;
+  font-size: 16px;
+}
+
+/* BUTTON */
+.modal-content button {
+  width: 100%;
+  padding: 18px;
+  background: #0c717a;
+  color: black;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.modal-content button:hover {
+  background: #c3a387;
+}
+
+/* LOGO */
+.modal-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.modal-logo img {
+  width: 70px;
+  height: auto;
+}
+.net {
+  font-weight: bold;
+  color: #0c717a;
+  text-align: center ; /* optional highlight */
+}
+/* CARD */
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  padding: 40px 35px;
+  border-radius: 14px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+
+/* LABEL */
+.login-card label {
+  display: block;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+/* INPUT */
+.login-card input {
+  width: 100%;
+  padding: 13px 14px;
+  font-size: 15px;
+  border-radius: 8px;
+  border: 1px solid #d0d0d0;
+  margin-bottom: 25px;
+  outline: none;
+}
+
+.login-card input:focus {
+  border-color: #0c717a;
+  box-shadow: 0 0 0 2px rgba(12, 113, 122, 0.2);
+}
+
+/* BUTTON */
+.login-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  background: #0c717a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  background: #095e65;
+}
+
+/* LINKS */
+.login-links {
+  margin-top: 22px;
+}
+
+.login-links a {
+  color: #0c717a;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-links a:hover {
+  text-decoration: underline;
+}
+/* LOGO */
+.logo-box {
+  margin-bottom: 15px;
+}
+
+.logo-box img {
+  max-width: 100px;
+  height: auto;
+  justify-content: center;
+}
+
+/* TITLE */
+/* .welcome-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #;
+  margin-bottom: 6px;
+} */
+
+/* SUBTITLE */
+.welcome-subtitle {
+  font-size: 20x;
+  color: red;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+/* BODY */
+.login-body {
+  background:#0F6D66;
+  padding: 30px;
+  background-size: 300% 300%;
+  animation: gradientMove 2s ease infinite;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.login-card {
+  background: white;
+  padding: 24px;          /* reduce from 30px */
+  border-radius: 14px;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.18);
+  text-align: center;
+
+  max-height: 90vh;       /* prevents overflow */
+  overflow-y:scroll; 
+        /* scroll if content is large */
+}
+
+
+/* WRAPPER */
+.login-wrapper {
+  width: 100%;
+  max-width: 360px;
+}
+
+/* CARD */
+
+.login-image {
+  width: 100px;
+  margin-bottom: 15px;
+}
+
+.login-card h2 {
+  color: #0c717a;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.login-card p {
+  color:#a55626;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+FORM
+.-group {
+  text-align: left;
+  margin-bottom: 18px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #444;
+  font-size: 14px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  box-sizing: border-box; /* IMPORTANT */
+}
+
+
+input:focus {
+  border-color: #0c717a;
+}
+
+/* PASSWORD WITH FORGOT */
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  padding-right: 80px;
+}
+
+.forgot-link {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+  color: #0c717a;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+
+/* BUTTON */
+.btn-primary {
+  width: 100%;
+  padding: 16px;
+  margin-top: 10px;
+  background: #0F6D66;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.btn-primary:hover {
+  background: #0c717a;
+}
+
+/* CREATE ACCOUNT */
+.create-account {
+  margin-top: 35px;
+  text-align: center;
+}
+
+.create-account h2 {
+  font-size: 18px;
+  color: #555;
+  text-align: center;
+}
+
+.create-account a {
+  color:#a35b24;
+  font-size: 17px;
+  text-decoration: none;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.create-account a:hover {
+  text-decoration: underline;
+}
+/* PASSWORD FIELD FIX */
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-wrapper input {
+  width: 100%;
+  height: 46px;                 /* ✅ fixed height */
+  padding: 0 90px 0 12px;       /* ✅ space for Forgot */
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;       /* ✅ IMPORTANT */
+}
+
+/* FORGOT LINK */
+.forgot-link {
+  position: absolute;
+  right: 12px;
+  top: 80%;
+  transform: translateY(-50%);
+  font-size: 15px;
+  font-weight: 600;
+  color: #0c717a;
+  text-decoration: none;
+  white-space: nowrap;          /* ✅ prevents wrapping */
+}
+
+.forgot-link:hover {
+  text-decoration:underline;
+}
+/* BUTTON GROUP */
+.button-group {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  
+} 
+
+/* CANCEL BUTTON */
+.btn-cancel {
+  width: 91%;
+  padding: 14px;
+  margin-top: 15px;
+  background: #0F6D66;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.btn-cancel:hover {
+  background:#a55626;
+  
+}
+
+/* ======= Top-right user logo with dropdown ======= */
+.topbar-user {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.user-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #fff;
+  transition: 0.3s;
+}
+
+.user-logo:hover {
+  transform: scale(1.05);
+}
+
+/* Dropdown */
+.user-dropdown {
+  position: absolute;
+  top: 60px;  /* below the logo */
+  right: 0;
+  width: 180px;
+  background: white;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Show dropdown on hover */
+.topbar-user:hover .user-dropdown {
+  opacity: 1;
+  visibility: visible;
+}
+
+.user-info {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.user-info strong {
+  display: block;
+  font-size: 14px;
+  color: #0c717a;
+}
+
+.user-info p {
+  font-size: 12px;
+  color: #555;
+  margin: 4px 0 0 0;
+}
+
+/* Logout button inside dropdown */
+.logout-btn {
+  width: 100%;
+  padding: 10px 0;
+  background: #0c717a;
+  color: white;
+  border: none;
+  border-radius: 0 0 10px 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.logout-btn:hover {
+  background: #a55626;
+}
+/* ==========================
+   Earnings Form
+========================== */
+
+.top-bar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.form-box{
+  display: none;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+.form-box input{
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.save-btn{
+  width: 100%;
+  background: #0c717a;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.save-btn:hover{
+  background: #a55626;
+}
+/* ==========================
+   Earnings Page
+========================== */
+
+.top-bar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.form-box{
+  display: none;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.form-box input{
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.save-btn{
+  width: 100%;
+  background: #0c717a;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.save-btn:hover{
+  background: #a55626;
+}
+
+/* ==========================
+   Table Action Icons
+========================== */
+
+.action-cell{
+  width: 100px;
+  text-align: center;
+}
+
+.action-icons{
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+
+  opacity: 0;
+  transition: 0.3s ease;
+}
+
+/* Show icons on row hover */
+tbody tr:hover .action-icons{
+  opacity: 1;
+}
+
+.edit-btn,
+.delete-btn{
+  cursor: pointer;
+  font-size: 17px;
+  transition: 0.2s;
+}
+
+.edit-btn{
+  color: #0c717a;
+}
+
+.delete-btn{
+  color: #c0392b;
+}
+
+.edit-btn:hover,
+.delete-btn:hover{
+  transform: scale(1.2);
+}
+/* ==========================
+   Earnings Form
+========================== */
+
+.form-box{
+  display: block;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.form-box input{
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.save-btn{
+  width: 100%;
+  background: #0c717a;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.save-btn:hover{
+  background: #a55626;
+}
+
+/* ==========================
+   Action Icons
+========================== */
+
+.action-cell{
+  width: 100px;
+  text-align: center;
+}
+
+.action-icons{
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+
+  opacity: 0;
+  transition: 0.3s ease;
+}
+
+tbody tr:hover .action-icons{
+  opacity: 1;
+}
+
+.edit-btn,
+.delete-btn{
+  cursor: pointer;
+  font-size: 17px;
+  transition: 0.2s;
+}
+
+.edit-btn{
+  color: #0c717a;
+}
+
+.delete-btn{
+  color: #c0392b;
+}
+
+.edit-btn:hover,
+.delete-btn:hover{
+  transform: scale(1.2);
+}
+/* ==========================
+   Top Bar
+========================== */
+
+.top-bar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* ==========================
+   Add Button
+========================== */
+
+.add-btn{
+  background: #0c717a;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.add-btn:hover{
+  background: #a55626;
+}
+
+/* ==========================
+   Form Box
+========================== */
+
+.form-box{
+  display: none;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.form-box input{
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.save-btn{
+  width: 100%;
+  background: #0c717a;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.save-btn:hover{
+  background: #a55626;
+}
+
+/* ==========================
+   Action Icons
+========================== */
+
+.action-cell{
+  width: 100px;
+  text-align: center;
+}
+
+.action-icons{
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+
+  opacity: 0;
+  transition: 0.3s;
+}
+
+tbody tr:hover .action-icons{
+  opacity: 1;
+}
+
+.edit-btn,
+.delete-btn{
+  cursor: pointer;
+  font-size: 17px;
+}
+
+.edit-btn{
+  color: #0c717a;
+}
+
+.delete-btn{
+  color: #c0392b;
+}
+/* ==========================
+   Attendance Form
+========================== */
+
+.top-bar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.form-box{
+  display: none;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.form-box input{
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.save-btn{
+  width: 100%;
+  padding: 14px;
+  border: none;
+  background: #0c717a;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.save-btn:hover{
+  background: #a55626;
+}
+
+/* ==========================
+   Action Icons
+========================== */
+
+.action-cell{
+  text-align: center;
+}
+
+.action-icons{
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+
+  opacity: 0;
+  transition: 0.3s;
+}
+
+tbody tr:hover .action-icons{
+  opacity: 1;
+}
+
+.edit-btn{
+  color: #0c717a;
+  cursor: pointer;
+}
+
+.delete-btn{
+  color: #c0392b;
+  cursor: pointer;
+}
+/* ==========================
+   Welcome Card
+========================== */
+
+.welcome-card{
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.welcome-card h2{
+  margin-bottom: 10px;
+  color: #0c717a;
+}
+
+.welcome-card p{
+  color: #555;
+  line-height: 1.6;
+}
+
+/* ==========================
+   Quick Actions
+========================== */
+
+.quick-actions{
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+  margin-bottom: 30px;
+}
+
+.quick-actions button{
+  padding: 12px 20px;
+  border: none;
+  background: #0c717a;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.quick-actions button:hover{
+  background: #a55626;
+}
+
+/* ==========================
+   Recent Employees
+========================== */
+
+.recent-section{
+  margin-top: 20px;
+}
+
+.recent-section h2{
+  margin-bottom: 15px;
+  color: #0c717a;
+}
+
+/* ==========================
+   Notification Card
+========================== */
+
+.notification-card{
+  margin-top: 30px;
+}
+
+.notification-card h3{
+  color: #0c717a;
+  margin-bottom: 15px;
+}
+
+/* ==========================
+   Date Time
+========================== */
+
+.dashboard-date{
+  text-align: right;
+  margin-bottom: 10px;
+  color: #555;
+  font-weight: 600;
+}
+
+/* ==========================
+   User Dropdown Fix
+========================== */
+
+.user-dropdown{
+  display: none;
+}
+
+.user-dropdown.show{
+  display: block;
+}
+
+
+
+
+
+
+

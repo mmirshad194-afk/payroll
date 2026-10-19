@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Verify OTP</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="login-body">
+
+<div class="login-wrapper">
+
+  <div class="login-card">
+
+    <!-- LOGO -->
+    <div class="logo-box">
+      <img src="NewLogoIQ.png" alt="Company Logo">
+    </div>
+
+    <h2 class="welcome-title">Verify OTP</h2>
+
+    <p class="welcome-subtitle">
+      Enter the OTP sent to your email
+    </p>
+
+    <label>OTP</label>
+
+    <input 
+      type="text"
+      id="otp"
+      placeholder="Enter 6 digit OTP"
+    >
+
+    <p id="message"></p>
+
+    <div class="button-group">
+
+      <button class="btn-primary" onclick="verifyOTP()">
+        Verify OTP
+      </button>
+
+      <a href="forgot-password.html" class="btn-cancel">
+        Back
+      </a>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script src="verifyotp.js"></script>
+
+</body>
+</html>

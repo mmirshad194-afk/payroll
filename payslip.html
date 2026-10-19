@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Payslip</title>
+
+<link rel="stylesheet" href="payslip.css">
+</head>
+
+<body>
+
+<div class="payslip-container">
+
+    <div class="payslip-header">
+        <h1>Salary Payslip</h1>
+        <h3>Payroll Management System</h3>
+    </div>
+
+    <table class="payslip-table">
+
+        <tr>
+            <td><b>Employee ID</b></td>
+            <td id="employee_id"></td>
+        </tr>
+
+        <tr>
+            <td><b>Month / Year</b></td>
+            <td id="month_year"></td>
+        </tr>
+
+        <tr>
+            <td><b>Gross Salary</b></td>
+            <td id="gross_salary"></td>
+        </tr>
+
+        <tr>
+            <td><b>Leave Deduction</b></td>
+            <td id="leave_deduction"></td>
+        </tr>
+
+        <tr>
+            <td><b>Other Deductions</b></td>
+            <td id="other_deductions"></td>
+        </tr>
+
+        <tr>
+            <td><b>Total Deductions</b></td>
+            <td id="total_deductions"></td>
+        </tr>
+
+        <tr>
+            <td><b>Net Salary</b></td>
+            <td id="net_salary"></td>
+        </tr>
+
+    </table>
+
+    <button class="print-btn"
+    onclick="window.print()">
+
+        Print Payslip
+
+    </button>
+
+</div>
+
+<script src="payslip.js"></script>
+
+</body>
+</html>

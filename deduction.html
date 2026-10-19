@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deductions</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<div class="sidebar">
+  <img src="Logo White.png">
+
+  <a href="index.html">Dashboard</a>
+  <a href="employes.html">Employees</a>
+  <a href="attendence.html">Attendance</a>
+  <a href="earnings.html">Earnings</a>
+  <a href="deduction.html" class="active">Deductions</a>
+  <a href="payroll.html">Payroll</a>
+</div>
+
+<div class="content">
+
+  <div class="top-bar">
+
+    <h1>Deductions</h1>
+
+    <button class="add-btn"
+    onclick="showForm()">
+
+      + Add Deduction
+
+    </button>
+
+  </div>
+
+  <!-- FORM -->
+
+  <div class="form-box"
+  id="deductionForm"
+  style="display:none;">
+
+    <input type="text"
+    id="employee_id"
+    placeholder="Employee ID">
+
+    <input type="number"
+    id="pf"
+    placeholder="PF">
+
+    <input type="number"
+    id="esi"
+    placeholder="ESI">
+
+    <input type="number"
+    id="professional_tax"
+    placeholder="Professional Tax">
+
+    <input type="number"
+    id="loan_deduction"
+    placeholder="Loan Deduction">
+
+    <input type="month"
+    id="month_year">
+
+    <button class="save-btn"
+    onclick="addDeduction()">
+
+      Save Deduction
+
+    </button>
+
+  </div>
+
+  <!-- TABLE -->
+
+  <table class="deduction-table">
+
+    <thead>
+
+      <tr>
+
+        <th>Employee ID</th>
+        <th>PF</th>
+        <th>ESI</th>
+        <th>Professional Tax</th>
+        <th>Loan Deduction</th>
+        <th>Month / Year</th>
+        <th>Action</th>
+
+      </tr>
+
+    </thead>
+
+    <tbody id="deductionBody">
+
+    </tbody>
+
+  </table>
+
+</div>
+
+<script src="deduction.js"></script>
+
+</body>
+</html>

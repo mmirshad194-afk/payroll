@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Earnings</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+
+    <div class="sidebar-logo">
+      <img src="Logo White.png" alt="">
+    </div>
+
+    <a href="index.html">Dashboard</a>
+    <a href="employes.html">Employees</a>
+    <a href="attendence.html">Attendance</a>
+    <a href="earnings.html" class="active">Earnings</a>
+    <a href="deduction.html">Deductions</a>
+    <a href="payroll.html">Payroll</a>
+
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+
+    <div class="top-bar">
+
+      <h1>Earnings</h1>
+
+      <!-- Add Button -->
+      <button class="add-btn" onclick="showForm()">
+        + Add Earnings
+      </button>
+
+    </div>
+
+    <!-- Form -->
+    <div class="form-box" id="earningForm">
+
+      <input type="text"
+      id="employee"
+      placeholder="Employee Id">
+
+      <input type="number"
+      id="basic"
+      placeholder="Basic Salary">
+
+      <input type="number"
+      id="hra"
+      placeholder="HRA">
+
+      <input type="number"
+      id="ta"
+      placeholder="TA">
+
+      <input type="number"
+      id="ot"
+      placeholder="OT Pay">
+
+      <input type="month"
+      id="month"
+      placeholder="Month / Year">
+
+      <button class="save-btn"
+      onclick="addEarning()">
+        Save Earnings
+      </button>
+
+    </div>
+
+    <!-- Table -->
+    <table id="earningTable">
+
+      <thead>
+
+        <tr>
+          <th>Employee id</th>
+          <th>Basic</th>
+          <th>HRA</th>
+          <th>TA</th>
+          <th>OT Pay</th>
+          <th>Month / Year</th>
+          <th>Action</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr>
+
+          <td>Nasaru rahman</td>
+          <td>30000</td>
+          <td>8000</td>
+          <td>1500</td>
+          <td>1200</td>
+          <td>Jan 2026</td>
+
+          <td class="action-cell">
+
+            <div class="action-icons">
+
+              <i class="fa-solid fa-pen edit-btn"
+              onclick="editRow(this)">
+              </i>
+
+              <i class="fa-solid fa-trash delete-btn"
+              onclick="deleteRow(this)">
+              </i>
+
+            </div>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <script src="earnings.js"></script>
+
+</body>
+</html>

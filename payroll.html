@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payroll</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+<body>
+
+<div class="sidebar">
+
+  <img src="Logo White.png">
+
+  <a href="index.html">Dashboard</a>
+  <a href="employes.html">Employees</a>
+  <a href="attendence.html">Attendance</a>
+  <a href="earnings.html">Earnings</a>
+  <a href="deduction.html">Deductions</a>
+  <a href="payroll.html" class="active">Payroll</a>
+
+</div>
+
+<div class="content">
+
+  <div class="top-bar">
+
+    <h1>Payroll Calculator</h1>
+
+    <button class="add-btn"
+    onclick="showPayrollForm()">
+
+      + Generate Payroll
+
+    </button>
+
+  </div>
+
+  <div class="form-box"
+  id="payrollForm"
+  style="display:none;">
+
+    <input type="text"
+    id="employee_id"
+    placeholder="Employee ID">
+
+    <input type="month"
+    id="month_year">
+
+    <button class="save-btn"
+    onclick="generatePayroll()">
+
+      Generate Payroll
+
+    </button>
+
+  </div>
+
+  <table id="payrollTable">
+
+    <thead>
+
+      <tr>
+
+        <th>Employee ID</th>
+    <th>Month / Year</th>
+    <th>Gross Salary</th>
+    <th>Total Deductions</th>
+    <th>Net Salary</th>
+    <th>Payslip</th>
+    <th>Email</th>
+    <th>Action</th>
+      </tr>
+
+    </thead>
+
+    <tbody id="payrollBody">
+
+    </tbody>
+
+  </table>
+
+</div>
+
+<script src="payroll.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+  content="width=device-width, initial-scale=1.0">
+
+  <title>Attendance</title>
+
+  <link rel="stylesheet" href="style.css">
+
+ 
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+  
+  <div class="sidebar">
+
+    <img src="Logo White.png">
+
+    <a href="index.html">Dashboard</a>
+    <a href="employes.html">Employees</a>
+    <a href="attendence.html" class="active">
+      Attendance
+    </a>
+    <a href="earnings.html">Earnings</a>
+    <a href="deduction.html">Deductions</a>
+    <a href="payroll.html">Payroll</a>
+
+  </div>
+
+  <div class="content">
+
+    <div class="top-bar">
+
+      <h1>Attendance</h1>
+
+      <button class="add-btn"
+      onclick="showForm()">
+
+        + Add Attendance
+
+      </button>
+
+    </div>
+
+    <!-- FORM -->
+    <div class="form-box"
+    id="attendanceForm">
+
+      <input type="text"
+      id="employee_id"
+      placeholder="Employee id">
+
+      <input type="month"
+      id="month_year"
+      placeholder="Monthyear">
+      
+      <input type="text" id="total_working_days" placeholder="Total Working Days ">
+
+      <input type="number"
+      id="present_days"
+      placeholder="Present Days">
+
+      <input type="number"
+      id="late_count"
+      placeholder="Late count">
+
+    
+
+      <button class="save-btn"
+      onclick="addAttendance()">
+
+        Save Attendance
+
+      </button>
+
+    </div>
+
+    <!-- TABLE -->
+    <table id="attendanceTable">
+
+      <thead>
+
+        <tr>
+
+          <th>Employee id</th>
+          <th>Month-Year</th>
+          <th>Total working days</th>
+          <th>Present Days</th>
+          <th>Leave Days</th>
+          <th>Attendance %</th>
+          <th>Action</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr>
+
+          <td>Nasaru Rahman</td>
+
+          
+          <td>June 26</td>
+
+          <td>24</td>
+
+          <td>2</td>
+
+          <td>4.5</td>
+
+          <td>92%</td>
+
+          <td class="action-cell">
+
+            <div class="action-icons">
+
+              <i class="fa-solid fa-pen edit-btn"
+              onclick="editRow(this)">
+              </i>
+
+              <i class="fa-solid fa-trash delete-btn"
+              onclick="deleteRow(this)">
+              </i>
+
+            </div>
+
+          </td>
+
+        </tr>
+
+        <tr>
+
+          <td>Sinan K</td>
+         
+          <td>26</td>
+
+          <td>26</td>
+
+          <td>0</td>
+
+          <td>0</td>
+
+          <td>100%</td>
+
+          <td class="action-cell">
+
+            <div class="action-icons">
+
+              <i class="fa-solid fa-pen edit-btn"
+              onclick="editRow(this)">
+              </i>
+
+              <i class="fa-solid fa-trash delete-btn"
+              onclick="deleteRow(this)">
+              </i>
+
+            </div>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <script src="attendance.js"></script>
+
+</body>
+</html>
